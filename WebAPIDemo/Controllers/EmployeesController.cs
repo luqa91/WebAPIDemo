@@ -61,6 +61,37 @@ namespace WebAPIDemo.Controllers
             }
         }
 
+        public HttpResponseMessage Delete(int id)
+        {
+            try
+            {
+            using (WebApiDemoEntities db = new WebApiDemoEntities())
+            {
+                var entity = db.Employees.FirstOrDefault(e => e.ID == id);
+                if(entity == null)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Employee with Id: " + id.ToString() + " not found to delete");
+                }
+                else
+                {
+                    db.Employees.Remove(entity);
+                    db.SaveChanges();
+                    return Request.CreateResponse(HttpStatusCode.OK);
+                }
+
+
+            }
+            }
+
+            catch(Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+            }
+
+        }
+
+
+
 
 
     }
