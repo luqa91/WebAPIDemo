@@ -7,6 +7,8 @@ using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
+using WebApiContrib.Formatting.Jsonp;
+using System.Web.Http.Cors;
 
 namespace WebAPIDemo
 {
@@ -43,12 +45,22 @@ namespace WebAPIDemo
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-        //      config.Formatters.Add(new CustomJsonFormatter());
 
-        //      config.Formatters.Remove(config.Formatters.XmlFormatter);
-        //      config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new System.Net.Http.Headers.MediaTypeHeaderValue("text/html"));
-        //      config.Formatters.JsonFormatter.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
-        //      config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+              EnableCorsAttribute cors = new EnableCorsAttribute("*", "*", "*");
+              config.EnableCors();
+
+           // config.Filters.Add(new RequireHttpsAttribute());
+
+            //var jsonpFormatter = new JsonpMediaTypeFormatter(config.Formatters.JsonFormatter);
+            //config.Formatters.Insert(0, jsonpFormatter);
+
+
+            //      config.Formatters.Add(new CustomJsonFormatter());
+
+            //      config.Formatters.Remove(config.Formatters.XmlFormatter);
+            //      config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new System.Net.Http.Headers.MediaTypeHeaderValue("text/html"));
+            //      config.Formatters.JsonFormatter.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
+            //      config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
 
 

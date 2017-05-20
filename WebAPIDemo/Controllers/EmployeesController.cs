@@ -4,22 +4,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace WebAPIDemo.Controllers
 {
+
+    [EnableCorsAttribute("*","*","*")]
+
     public class EmployeesController : ApiController
     {
-
+        [BasicAuthentication]
         public HttpResponseMessage Get(string gender ="All" )
         {
+            string username = Thread.CurrentPrincipal.Identity.Name;
+
+
+
             using (WebApiDemoEntities db = new WebApiDemoEntities())
             {
-                switch(gender.ToLower())
+                switch(username.ToLower())
                 {
-                    case "all":
-                        return Request.CreateResponse(HttpStatusCode.OK,
-                            db.Employees.ToList());
                     case "male":
                         return Request.CreateResponse(HttpStatusCode.OK,
                             db.Employees.Where(e => e.Gender.ToLower() =="male").ToList());
